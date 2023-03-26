@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "934150876297",
+    "project_id": "selfbetter-8acc3",
+    "storage_bucket": "selfbetter-8acc3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934150876297:android:140e3bd72afa46932a6a58",
+        "android_client_info": {
+          "package_name": "com.example.selfbetter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "934150876297-cisifcanunu9l4aapuiicil7p30upcin.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJoHX-JoXtWyV6Cy9sg8gEDt1U5amSUHQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "934150876297-cisifcanunu9l4aapuiicil7p30upcin.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
