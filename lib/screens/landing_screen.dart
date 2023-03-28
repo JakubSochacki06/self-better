@@ -3,8 +3,8 @@ import 'package:selfbetter/providers/google_sign_in.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:provider/provider.dart';
 
-class LandingScreen extends StatelessWidget {
-  const LandingScreen({Key? key}) : super(key: key);
+class LandingPage extends StatelessWidget {
+  const LandingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +101,7 @@ class LandingScreen extends StatelessWidget {
                       onPressed: () {
                         final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
                         provider.googleLogin();
+                        Navigator.pushNamed(context, '/logging');
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

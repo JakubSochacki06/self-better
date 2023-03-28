@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:selfbetter/providers/google_sign_in.dart';
+import 'package:selfbetter/screens/logging_screen.dart';
 import 'screens/landing_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          '/landing': (context) => LandingScreen(),
+          '/landing': (context) => LandingPage(),
+          '/logging': (context) => LoggingPage(),
         },
         initialRoute: '/landing',
       ),
