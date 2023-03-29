@@ -101,7 +101,7 @@ class LandingPage extends StatelessWidget {
                       onPressed: () {
                         final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
                         provider.googleLogin();
-                        Navigator.pushNamed(context, '/logging');
+                        Navigator.pushNamed(context, '/registerUserToFirebase');
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

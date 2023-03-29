@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:selfbetter/screens/home_screen.dart';
 import 'package:selfbetter/screens/landing_screen.dart';
 
-class LoggingPage extends StatelessWidget {
-  const LoggingPage({Key? key}) : super(key: key);
+class LoggingPage extends StatefulWidget {
+
+
+  @override
+  State<LoggingPage> createState() => _LoggingPageState();
+}
+
+class _LoggingPageState extends State<LoggingPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),

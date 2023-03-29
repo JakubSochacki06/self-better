@@ -40,24 +40,24 @@ class _SliderPageState extends State<SliderPage> {
 
 
 
-  const _TOP_SLIDER_MAX_STEP = 5;
+const _TOP_SLIDER_MAX_STEP = 5;
 
-  double _topSliderValue = 0.3;
+double _topSliderValue = 0.3;
 
-  // final List<Color> _colors = [
-  //   Color.fromARGB(255, 255, 0, 0),
-  //   Color.fromARGB(255, 255, 128, 0),
-  //   Color.fromARGB(255, 255, 255, 0),
-  //   Color.fromARGB(255, 128, 255, 0),
-  //   Color.fromARGB(255, 0, 255, 0),
-  //   Color.fromARGB(255, 0, 255, 128),
-  //   Color.fromARGB(255, 0, 255, 255),
-  //   Color.fromARGB(255, 0, 128, 255),
-  //   Color.fromARGB(255, 0, 0, 255),
-  //   Color.fromARGB(255, 127, 0, 255),
-  //   Color.fromARGB(255, 255, 0, 255),
-  //   Color.fromARGB(255, 255, 0, 127),
-  // ];
+// final List<Color> _colors = [
+//   Color.fromARGB(255, 255, 0, 0),
+//   Color.fromARGB(255, 255, 128, 0),
+//   Color.fromARGB(255, 255, 255, 0),
+//   Color.fromARGB(255, 128, 255, 0),
+//   Color.fromARGB(255, 0, 255, 0),
+//   Color.fromARGB(255, 0, 255, 128),
+//   Color.fromARGB(255, 0, 255, 255),
+//   Color.fromARGB(255, 0, 128, 255),
+//   Color.fromARGB(255, 0, 0, 255),
+//   Color.fromARGB(255, 127, 0, 255),
+//   Color.fromARGB(255, 255, 0, 255),
+//   Color.fromARGB(255, 255, 0, 127),
+// ];
 
 int _rangedSelectedValue(int maxSteps, double value) {
   double stepRange = 1.0 / maxSteps;

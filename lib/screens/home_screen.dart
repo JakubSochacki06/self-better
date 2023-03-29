@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'slider_screen.dart';
+import 'user_profile_screen.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -15,7 +16,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
-
     List<Widget> _widgetOptions = <Widget>[
       Text(
         'Home',
@@ -24,9 +24,7 @@ class _HomePageState extends State<HomePage> {
         'Likes',
       ),
       SliderPage(),
-      Text(
-        'Profile',
-      ),
+      UserProfilePage(),
     ];
 
     return Scaffold(
@@ -61,3 +59,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
