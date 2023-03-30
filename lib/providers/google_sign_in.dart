@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -15,7 +16,9 @@ class GoogleSignInProvider extends ChangeNotifier {
     final googleAuth = await googleUser.authentication;
     final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
-
+    final db = FirebaseFirestore.instance;
+    DateTime now = new DateTime.now();
+    await db.collection('users_data').doc(_user!.email).set({'user_email':_user!.email, 'Member_since':'${now.day}, ${now.month}, ${now.year}'}, SetOptions(merge : true));
     await FirebaseAuth.instance.signInWithCredential(credential);
     notifyListeners();
   }

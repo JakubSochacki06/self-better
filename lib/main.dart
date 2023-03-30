@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:selfbetter/providers/google_sign_in.dart';
 import 'package:selfbetter/screens/logging_screen.dart';
-import 'package:selfbetter/screens/register_user_to_firebase_screen.dart';
 import 'screens/landing_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +23,6 @@ class MyApp extends StatelessWidget {
         routes: {
           '/landing': (context) => LandingPage(),
           '/logging': (context) => LoggingPage(),
-          '/registerUserToFirebase': (context) => RegisterUserToFirebasePage(),
         },
         initialRoute: '/landing',
       ),
