@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'slider_screen.dart';
+import 'rate_your_day_screen.dart';
 import 'user_profile_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
       Text(
         'Likes',
       ),
-      SliderPage(),
+      RateYourDayPage(),
       UserProfilePage(),
     ];
 

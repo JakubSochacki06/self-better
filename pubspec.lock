@@ -232,22 +232,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.0+2"
-  gradient_colored_slider:
-    dependency: "direct main"
-    description:
-      name: gradient_colored_slider
-      sha256: "9c1f8220b2d129c40fd71c60dcf7950783b6ed366424a432176da9221dfa1995"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
-  gradient_slider:
-    dependency: "direct main"
-    description:
-      name: gradient_slider
-      sha256: "3e201453b28823b964b2330ca0d854cc6c8acda2c68c2bed2eaac9eae073689f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   http:
     dependency: transitive
     description:
@@ -357,6 +341,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  slide_countdown:
+    dependency: "direct main"
+    description:
+      name: slide_countdown
+      sha256: "875af3ece988a1131a43636e78912f856d516cf7fdda3db403e0d3749e4bed71"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.0"
   source_span:
     dependency: transitive
     description:
@@ -381,6 +373,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  stream_duration:
+    dependency: transitive
+    description:
+      name: stream_duration
+      sha256: a29e071bf3e5d284e1e7dce98dbbaf547e16543c4802ec4f1a5c74e516c71af5
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.1"
   string_scanner:
     dependency: transitive
     description:
@@ -389,22 +389,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  syncfusion_flutter_core:
-    dependency: "direct main"
-    description:
-      name: syncfusion_flutter_core
-      sha256: "6c704aa944ae5dfc4ae7c473d52eba551acfa39fff277bae3cb355cdb2457f76"
-      url: "https://pub.dev"
-    source: hosted
-    version: "21.1.35"
-  syncfusion_flutter_sliders:
-    dependency: "direct main"
-    description:
-      name: syncfusion_flutter_sliders
-      sha256: "157ec31e1de763a3178a346980f6f0e703bfb22363b806ea7d9327b9783ecea1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "21.1.35"
   term_glyph:
     dependency: transitive
     description:

@@ -21,3 +21,9 @@ const kLandingPageParagraphTextStyle = TextStyle(
   fontWeight: FontWeight.w600,
   fontFamily: 'TTnorms',
 );
+const kRateYourDayEmojiName = TextStyle(
+  color: Colors.grey,
+  fontSize: 15,
+  fontWeight: FontWeight.w500,
+  fontFamily: 'TTnorms',
+);
