@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:selfbetter/providers/firestore_helper.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:selfbetter/widgets/feeling_button.dart';
 import 'package:slide_countdown/slide_countdown.dart';
@@ -461,55 +463,67 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
                       emojiSuccessIsActive
                     ];
                     DateTime now = new DateTime.now();
-                    await for (var snapshot
-                    in db.collection('users_data').snapshots()) {
-                      for (var message in snapshot.docs) {
-                        if (message.data()['user_email'] == user.email) {
-                          Map data = {'${now.day}, ${now.month}, ${now.year}':
-                          activeEmojis};
-                          if (message.data()['day_ratings'] == null) {
-                            await db
-                                .collection('users_data')
-                                .doc(user.email)
-                                .set({
-                              'day_ratings': [
-                                data
-                              ]
-                            }, SetOptions(merge: true));
-                            return;
-                          } else {
-                            List<dynamic> ratings =
-                            message.data()['day_ratings'];
-                            // Checks if user is NOT trying to sumbit same day
-                            var lastEntryKey = ratings[ratings.length - 1].entries.toList()[0].key;
-                            if(!(lastEntryKey == '${now.day}, ${now.month}, ${now.year}')){
-                              ratings.add({
-                                '${now.day}, ${now.month}, ${now.year}':
-                                activeEmojis
-                              });
-                              await db
-                                  .collection('users_data')
-                                  .doc(user.email)
-                                  .set({'day_ratings': ratings},
-                                  SetOptions(merge: true));
-                            }
-                            // Same day submitted again, so we have to check if values are also the same
-                            else {
-                              if(listEquals(ratings[ratings.length - 1]['${now.day}, ${now.month}, ${now.year}'], data['${now.day}, ${now.month}, ${now.year}'])){
-                                return;
-                              }
-                              ratings[ratings.length-1] = data;
-                              await db
-                                  .collection('users_data')
-                                  .doc(user.email)
-                                  .set({'day_ratings': ratings},
-                                  SetOptions(merge: true));
-                            }
-                            return;
-                          }
-                        }
+                    FirestoreHelper firestoreHelper = Provider.of<FirestoreHelper>(context, listen: false);
+                    Map data = {'${now.day}, ${now.month}, ${now.year}': activeEmojis};
+                    List<dynamic>? dayRatings = await firestoreHelper.getUserDataFromDataField('day_ratings', user.email!);
+                    if(dayRatings == null){
+                      firestoreHelper.addDataToFirestore('users_data', user.email!, 'day_ratings', [data]);
+                      return;
+                    } else {
+                      List<dynamic> ratings = dayRatings;
+                      // Checks if user is NOT trying to sumbit same day
+                      var lastEntryKey = ratings[ratings.length - 1].entries.toList()[0].key;
+                      if(!(lastEntryKey == '${now.day}, ${now.month}, ${now.year}')){
+                        ratings.add({
+                          '${now.day}, ${now.month}, ${now.year}':
+                          activeEmojis
+                        });
+                        firestoreHelper.addDataToFirestore('users_data', user.email!, 'day_ratings', ratings);
                       }
+                      else {
+                        if(listEquals(ratings[ratings.length - 1]['${now.day}, ${now.month}, ${now.year}'], data['${now.day}, ${now.month}, ${now.year}'])){
+                          return;
+                        }
+                        ratings[ratings.length-1] = data;
+                        firestoreHelper.addDataToFirestore('users_data', user.email!, 'day_ratings', ratings);
+                      }
+                      return;
                     }
+
+
+
+                    // await for (var snapshot
+                    // in db.collection('users_data').snapshots()) {
+                    //   for (var message in snapshot.docs) {
+                    //     if (message.data()['user_email'] == user.email) {
+                    //       if (message.data()['day_ratings'] == null) {
+                    //         firestoreHelper.addDataToFirestore('users_data', user.email!, 'day_ratings', [data]);
+                    //         return;
+                    //       } else {
+                    //         List<dynamic> ratings =
+                    //         message.data()['day_ratings'];
+                    //         // Checks if user is NOT trying to sumbit same day
+                    //         var lastEntryKey = ratings[ratings.length - 1].entries.toList()[0].key;
+                    //         if(!(lastEntryKey == '${now.day}, ${now.month}, ${now.year}')){
+                    //           ratings.add({
+                    //             '${now.day}, ${now.month}, ${now.year}':
+                    //             activeEmojis
+                    //           });
+                    //           firestoreHelper.addDataToFirestore('users_data', user.email!, 'day_ratings', ratings);
+                    //         }
+                    //         // Same day submitted again, so we have to check if values are also the same
+                    //         else {
+                    //           if(listEquals(ratings[ratings.length - 1]['${now.day}, ${now.month}, ${now.year}'], data['${now.day}, ${now.month}, ${now.year}'])){
+                    //             return;
+                    //           }
+                    //           ratings[ratings.length-1] = data;
+                    //           firestoreHelper.addDataToFirestore('users_data', user.email!, 'day_ratings', ratings);
+                    //         }
+                    //         return;
+                    //       }
+                    //     }
+                    //   }
+                    // }
                   }
                       : null,
                   child: widget.submitButtonChild,
