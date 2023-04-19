@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:selfbetter/providers/google_sign_in.dart';
+import 'package:selfbetter/screens/add_note_screen.dart';
 import 'package:selfbetter/screens/home_screen.dart';
 import 'package:selfbetter/screens/logging_screen.dart';
 import 'screens/landing_screen.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/landing': (context) => LandingPage(),
           '/logging': (context) => LoggingPage(),
+          '/addNote': (context) => AddNotePage(),
           '/home':(context) => HomePage(),
         },
         initialRoute: isLogged? '/home' :'/landing',

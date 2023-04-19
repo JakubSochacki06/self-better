@@ -4,6 +4,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'rate_your_day_screen.dart';
 import 'user_profile_screen.dart';
+import 'notes_screen.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -20,9 +21,7 @@ class _HomePageState extends State<HomePage> {
       Text(
         'Home',
       ),
-      Text(
-        'Likes',
-      ),
+      NotesPage(),
       RateYourDayPage(),
       UserProfilePage(),
     ];
@@ -49,7 +48,7 @@ class _HomePageState extends State<HomePage> {
             },
             tabs: [
               GButton(icon: FontAwesomeIcons.house, text: 'Home'),
-              GButton(icon: FontAwesomeIcons.heart),
+              GButton(icon: FontAwesomeIcons.noteSticky),
               GButton(icon: FontAwesomeIcons.smile),
               GButton(icon: FontAwesomeIcons.user, text: 'Profile'),
             ],

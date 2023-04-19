@@ -9,13 +9,14 @@ class FirestoreHelper{
   }
 
   Future<dynamic> getUserDataFromDataField(String documentFieldName, String userEmail) async{
-    await for (var snapshot in db.collection('users_data').snapshots()) {
-      for (var message in snapshot.docs) {
-        if(message.data()['user_email'] == userEmail){
-          return message.data()[documentFieldName];
-        }
-      }
-    }
+    final docRef = db.collection("users_data").doc(userEmail);
+    docRef.get().then(
+          (DocumentSnapshot doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return data[documentFieldName];
+      },
+      onError: (e) => print("Error getting document: $e"),
+    );
   }
 
   void addDataToFirestore(String collectionName, String documentName, String documentFieldName, dynamic documentData) async{
