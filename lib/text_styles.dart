@@ -27,3 +27,5 @@ const kRateYourDayEmojiName = TextStyle(
   fontWeight: FontWeight.w500,
   fontFamily: 'TTnorms',
 );
+
+const kNotesScreenTitle = TextStyle(color: Color(0xFF27B5BE), fontSize: 20, fontFamily: 'TTnorms', fontWeight: FontWeight.w700);

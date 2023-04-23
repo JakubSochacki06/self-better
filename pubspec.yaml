@@ -45,6 +45,8 @@ dependencies:
   flutter_spinkit: ^5.1.0
   slide_countdown: ^0.5.0
   animated_text_kit: ^4.2.2
+  persistent_bottom_nav_bar: ^5.0.2
+  auto_size_text_field: ^2.2.1
 
 dev_dependencies:
   flutter_test:
@@ -73,17 +75,18 @@ flutter:
     - assets/images/landing-page.png
     - assets/images/GoogleLogo.png
     - assets/images/badges/muscle-badge.png
-    - assets/images/emojis/angry-emoji.png
-    - assets/images/emojis/happy-emoji.png
-    - assets/images/emojis/neutral-emoji.png
-    - assets/images/emojis/sad-emoji.png
-    - assets/images/emojis/mixed-emoji.png
-    - assets/images/emojis/tired-emoji.png
-    - assets/images/emojis/lonely-emoji.png
-    - assets/images/emojis/bad mental-emoji.png
-    - assets/images/emojis/overthinking-emoji.png
-    - assets/images/emojis/stressed-emoji.png
-    - assets/images/emojis/success-emoji.png
+    - assets/images/emojis/
+#    - assets/images/emojis/angry-emoji.png
+#    - assets/images/emojis/happy-emoji.png
+#    - assets/images/emojis/neutral-emoji.png
+#    - assets/images/emojis/sad-emoji.png
+#    - assets/images/emojis/mixed-emoji.png
+#    - assets/images/emojis/tired-emoji.png
+#    - assets/images/emojis/lonely-emoji.png
+#    - assets/images/emojis/bad mental-emoji.png
+#    - assets/images/emojis/overthinking-emoji.png
+#    - assets/images/emojis/stressed-emoji.png
+#    - assets/images/emojis/success-emoji.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
