@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:selfbetter/providers/firestore_helper.dart';
+import 'package:selfbetter/helpers/firestore_helper.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:selfbetter/widgets/feeling_button.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
@@ -85,18 +84,15 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
       goodDayActive
     ];
     DateTime now = new DateTime.now();
-    FirestoreHelper firestoreHelper =
-    Provider.of<FirestoreHelper>(context,
-        listen: false);
     Map data = {
       '${now.day}, ${now.month}, ${now.year}':
       activeEmojis
     };
     List<dynamic>? dayRatings =
-    await firestoreHelper.getUserDataFromDataField(
+    await FirestoreHelper.getUserDataFromDataField(
         'day_ratings', user.email!);
     if (dayRatings == null) {
-      firestoreHelper.addDataToFirestore('users_data',
+      FirestoreHelper.addDataToFirestore('users_data',
           user.email!, 'day_ratings', [data]);
       return;
     } else {
@@ -112,7 +108,7 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
           '${now.day}, ${now.month}, ${now.year}':
           activeEmojis
         });
-        firestoreHelper.addDataToFirestore('users_data',
+        FirestoreHelper.addDataToFirestore('users_data',
             user.email!, 'day_ratings', ratings);
       } else {
         if (listEquals(
@@ -123,7 +119,7 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
           return;
         }
         ratings[ratings.length - 1] = data;
-        firestoreHelper.addDataToFirestore('users_data',
+        FirestoreHelper.addDataToFirestore('users_data',
             user.email!, 'day_ratings', ratings);
       }
       return;

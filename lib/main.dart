@@ -7,35 +7,37 @@ import 'package:selfbetter/screens/logging_screen.dart';
 import 'screens/landing_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'providers/firestore_helper.dart';
+import 'helpers/firestore_helper.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  bool isLogged = FirebaseAuth.instance.currentUser == null? false : true;
+  bool isLogged = FirebaseAuth.instance.currentUser == null ? false : true;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => GoogleSignInProvider()),
-        Provider(create: (_) => FirestoreHelper()),
       ],
       child: MaterialApp(
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+
+            primary: Color(0xFF27B5BE),
+          ),
         ),
         routes: {
           '/landing': (context) => LandingPage(),
           '/logging': (context) => LoggingPage(),
           '/addNote': (context) => AddNotePage(),
-          '/home':(context) => HomePage(),
+          '/home': (context) => HomePage(),
         },
-        initialRoute: isLogged? '/home' :'/landing',
+        initialRoute: isLogged ? '/home' : '/landing',
       ),
     );
   }
