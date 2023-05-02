@@ -12,7 +12,7 @@ final user = FirebaseAuth.instance.currentUser!;
 
 class RateYourDayPage extends StatefulWidget {
   Widget submitButtonChild =
-      Text('Submit', style: TextStyle(color: Colors.black87));
+  Text('Submit', style: TextStyle(color: Colors.black87));
 
   @override
   State<RateYourDayPage> createState() => _RateYourDayPageState();
@@ -20,27 +20,27 @@ class RateYourDayPage extends StatefulWidget {
 
 class _RateYourDayPageState extends State<RateYourDayPage> {
   MaterialStateProperty<Color> emoji1 =
-      MaterialStateProperty.all(Color(0xFFf5f5f5));
+  MaterialStateProperty.all(Color(0xFFf5f5f5));
   MaterialStateProperty<Color> emoji2 =
-      MaterialStateProperty.all(Color(0xFFf5f5f5));
+  MaterialStateProperty.all(Color(0xFFf5f5f5));
   MaterialStateProperty<Color> emoji3 =
-      MaterialStateProperty.all(Color(0xFFf5f5f5));
+  MaterialStateProperty.all(Color(0xFFf5f5f5));
   MaterialStateProperty<Color> emoji4 =
-      MaterialStateProperty.all(Color(0xFFf5f5f5));
+  MaterialStateProperty.all(Color(0xFFf5f5f5));
   MaterialStateProperty<Color> emoji5 =
-      MaterialStateProperty.all(Color(0xFFf5f5f5));
+  MaterialStateProperty.all(Color(0xFFf5f5f5));
   MaterialStateProperty<Color> emojiTiredActiveColor =
-      MaterialStateProperty.all(Colors.grey.shade300);
+  MaterialStateProperty.all(Colors.grey.shade300);
   MaterialStateProperty<Color> emojiLonelyActiveColor =
-      MaterialStateProperty.all(Colors.grey.shade300);
+  MaterialStateProperty.all(Colors.grey.shade300);
   MaterialStateProperty<Color> emojiBadMentalActiveColor =
-      MaterialStateProperty.all(Colors.grey.shade300);
+  MaterialStateProperty.all(Colors.grey.shade300);
   MaterialStateProperty<Color> emojiOverthinkingActiveColor =
-      MaterialStateProperty.all(Colors.grey.shade300);
+  MaterialStateProperty.all(Colors.grey.shade300);
   MaterialStateProperty<Color> emojiStressedActiveColor =
-      MaterialStateProperty.all(Colors.grey.shade300);
+  MaterialStateProperty.all(Colors.grey.shade300);
   MaterialStateProperty<Color> emojiSuccessActiveColor =
-      MaterialStateProperty.all(Colors.grey.shade300);
+  MaterialStateProperty.all(Colors.grey.shade300);
   MaterialStateProperty<Color> emojiAnnoyedActiveColor =
   MaterialStateProperty.all(Colors.grey.shade300);
   MaterialStateProperty<Color> emojiAnxiousActiveColor =
@@ -179,14 +179,14 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
                               backgroundColor: emoji1,
                               shape: MaterialStateProperty.all(CircleBorder()),
                               padding:
-                                  MaterialStateProperty.all(EdgeInsets.all(10)),
+                              MaterialStateProperty.all(EdgeInsets.all(10)),
                               elevation: MaterialStateProperty.all(0),
                               overlayColor:
-                                  MaterialStateProperty.resolveWith<Color?>(
+                              MaterialStateProperty.resolveWith<Color?>(
                                       (states) {
-                                if (states.contains(MaterialState.pressed))
-                                  return Colors.red.shade300;
-                              }),
+                                    if (states.contains(MaterialState.pressed))
+                                      return Colors.red.shade300;
+                                  }),
                             ),
                           ),
                           SizedBox(height: 10),
@@ -226,15 +226,15 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
                             style: ButtonStyle(
                               backgroundColor: emoji2,
                               padding:
-                                  MaterialStateProperty.all(EdgeInsets.all(10)),
+                              MaterialStateProperty.all(EdgeInsets.all(10)),
                               shape: MaterialStateProperty.all(CircleBorder()),
                               elevation: MaterialStateProperty.all(0),
                               overlayColor:
-                                  MaterialStateProperty.resolveWith<Color?>(
+                              MaterialStateProperty.resolveWith<Color?>(
                                       (states) {
-                                if (states.contains(MaterialState.pressed))
-                                  return Colors.orange.shade300;
-                              }),
+                                    if (states.contains(MaterialState.pressed))
+                                      return Colors.orange.shade300;
+                                  }),
                             ),
                           ),
                           SizedBox(height: 10),
@@ -274,15 +274,15 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
                             style: ButtonStyle(
                               backgroundColor: emoji3,
                               padding:
-                                  MaterialStateProperty.all(EdgeInsets.all(10)),
+                              MaterialStateProperty.all(EdgeInsets.all(10)),
                               shape: MaterialStateProperty.all(CircleBorder()),
                               elevation: MaterialStateProperty.all(0),
                               overlayColor:
-                                  MaterialStateProperty.resolveWith<Color?>(
+                              MaterialStateProperty.resolveWith<Color?>(
                                       (states) {
-                                if (states.contains(MaterialState.pressed))
-                                  return Colors.purple.shade300;
-                              }),
+                                    if (states.contains(MaterialState.pressed))
+                                      return Colors.purple.shade300;
+                                  }),
                             ),
                           ),
                           SizedBox(height: 10),
@@ -322,15 +322,15 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
                             style: ButtonStyle(
                               backgroundColor: emoji4,
                               padding:
-                                  MaterialStateProperty.all(EdgeInsets.all(10)),
+                              MaterialStateProperty.all(EdgeInsets.all(10)),
                               shape: MaterialStateProperty.all(CircleBorder()),
                               elevation: MaterialStateProperty.all(0),
                               overlayColor:
-                                  MaterialStateProperty.resolveWith<Color?>(
+                              MaterialStateProperty.resolveWith<Color?>(
                                       (states) {
-                                if (states.contains(MaterialState.pressed))
-                                  return Colors.yellow.shade300;
-                              }),
+                                    if (states.contains(MaterialState.pressed))
+                                      return Colors.yellow.shade300;
+                                  }),
                             ),
                           ),
                           SizedBox(height: 10),
@@ -370,15 +370,15 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
                             style: ButtonStyle(
                               backgroundColor: emoji5,
                               padding:
-                                  MaterialStateProperty.all(EdgeInsets.all(10)),
+                              MaterialStateProperty.all(EdgeInsets.all(10)),
                               shape: MaterialStateProperty.all(CircleBorder()),
                               elevation: MaterialStateProperty.all(0),
                               overlayColor:
-                                  MaterialStateProperty.resolveWith<Color?>(
+                              MaterialStateProperty.resolveWith<Color?>(
                                       (states) {
-                                if (states.contains(MaterialState.pressed))
-                                  return Colors.green.shade300;
-                              }),
+                                    if (states.contains(MaterialState.pressed))
+                                      return Colors.green.shade300;
+                                  }),
                             ),
                           ),
                           SizedBox(height: 10),
@@ -453,7 +453,7 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
                           onPressed: () {
                             setState(() {
                               emojiOverthinkingIsActive =
-                                  !emojiOverthinkingIsActive;
+                              !emojiOverthinkingIsActive;
                             });
                           }),
                       FeelingButton(

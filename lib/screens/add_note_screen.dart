@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:selfbetter/helpers/firestore_helper.dart';
+import 'package:selfbetter/helpers/storage_helper.dart';
 import 'package:selfbetter/widgets/image_input.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:selfbetter/helpers/storage_helper.dart';
-
 class AddNotePage extends StatefulWidget {
   @override
   State<AddNotePage> createState() => _AddNotePageState();
@@ -45,6 +45,27 @@ class _AddNotePageState extends State<AddNotePage> {
     _pickedImage = pickedImage;
   }
 
+  void sendData() async{
+      List<dynamic>? notes = await FirestoreHelper.getUserDataFromDataField('notes', user.email!);
+      DateTime now = new DateTime.now();
+      List<dynamic> notesData = [_titleController.text, _descriptionController.text, activeGeneralEmoji];
+      Map data = {'${now.day}, ${now.month}, ${now.year}': notesData};
+      print(notes);
+      if(notes == null){
+        print('NO NOTES');
+        FirestoreHelper.addDataToFirestore('users_data', user.email!, 'notes', [data]);
+        return;
+      } else {
+        print('NOTES FOUND');
+        List<dynamic> userNotes = notes;
+        userNotes.add(data);
+        FirestoreHelper.addDataToFirestore('users_data', user.email!, 'notes', userNotes);
+      }
+      if(_pickedImage != null){
+        StorageHelper.uploadFile(_titleController.text, user.email!, _pickedImage!);
+      }
+      Navigator.pop(context);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -379,6 +400,11 @@ class _AddNotePageState extends State<AddNotePage> {
                   ),
                   TextField(
                     controller: _titleController,
+                    onChanged: (value){
+                      if(value.length<=1){
+                        setState(() {});
+                      }
+                    },
                     decoration: InputDecoration(
                       labelText: 'Title',
                     ),
@@ -391,6 +417,12 @@ class _AddNotePageState extends State<AddNotePage> {
                     child: TextField(
                       maxLines: null,
                       expands: true,
+                      onChanged: (value){
+                        if(value.length<=1){
+                          print('setstate');
+                          setState(() {});
+                        }
+                      },
                       controller: _descriptionController,
                       decoration: InputDecoration(
                         labelText: 'Description',
@@ -409,9 +441,9 @@ class _AddNotePageState extends State<AddNotePage> {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: (){
-                  StorageHelper.uploadFile(_titleController.text, user.email!, _pickedImage!);
-                },
+                onPressed: activeGeneralEmoji != 0 && _titleController.text != '' && _descriptionController.text != ''?
+                    sendData
+                    :null,
                 child: Text('Submit', style: TextStyle(color: Colors.black87)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue.shade100,
@@ -420,7 +452,7 @@ class _AddNotePageState extends State<AddNotePage> {
                       borderRadius: BorderRadius.circular(12),
                       side: BorderSide(
                         width: 1.0,
-                        color: Colors.blue,
+                        color: activeGeneralEmoji != 0 && _titleController.text != '' && _descriptionController.text != ''? Colors.blue: Colors.grey.shade100,
                       )),
                 ),
               ),
