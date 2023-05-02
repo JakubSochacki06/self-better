@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:selfbetter/screens/add_note_screen.dart';
 import 'package:selfbetter/text_styles.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:selfbetter/widgets/notes_list.dart';
 
 class NotesPage extends StatelessWidget {
   @override
@@ -31,7 +33,7 @@ class NotesPage extends StatelessWidget {
                 },
               ),
             ),
-            
+            NotesList(),
           ],
         ),
       ),

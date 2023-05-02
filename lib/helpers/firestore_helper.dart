@@ -18,4 +18,10 @@ class FirestoreHelper{
      final db = FirebaseFirestore.instance;
     await db.collection(collectionName).doc(documentName).set({documentFieldName: documentData}, SetOptions(merge: true));
   }
+
+  // static Future<Stream> getStreamFromUserData(String userEmail, String documentName) async{
+  //   final db = FirebaseFirestore.instance;
+  //   print('working');
+  //   return db.collection('users_data').doc(userEmail).snapshots();
+  // }
 }

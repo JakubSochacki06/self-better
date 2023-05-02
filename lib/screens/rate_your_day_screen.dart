@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:selfbetter/helpers/firestore_helper.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:selfbetter/widgets/feeling_button.dart';
-import 'package:auto_size_text_field/auto_size_text_field.dart';
 
 final db = FirebaseFirestore.instance;
 final user = FirebaseAuth.instance.currentUser!;
