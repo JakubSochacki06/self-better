@@ -28,10 +28,46 @@ const kRateYourDayEmojiName = TextStyle(
   fontFamily: 'TTnorms',
 );
 
-const kNotesScreenTitle = TextStyle(color: Color(0xFF27B5BE), fontSize: 20, fontFamily: 'TTnorms', fontWeight: FontWeight.w700);
+const kNotesScreenTitle = TextStyle(color: Color(0xFF27B5BE), fontSize: 30, fontFamily: 'TTnorms', fontWeight: FontWeight.w700);
 
-const kNotesMonth = TextStyle(
+const kNotesMainMonth = TextStyle(
+  color: Colors.black,
   fontSize: 25,
   fontWeight: FontWeight.w700,
+  fontFamily: 'TTnorms',
+);
+
+const kNotesMainYear = TextStyle(
+  color: Colors.grey,
+  fontSize: 20,
+  fontWeight: FontWeight.w500,
+  fontFamily: 'TTnorms',
+);
+
+const kNotesDate = TextStyle(
+  color: Colors.black54,
+  fontSize: 15,
+  fontWeight: FontWeight.w500,
+  fontFamily: 'TTnorms',
+);
+
+const kNotesFeelingName = TextStyle(
+  color: Colors.black,
+  fontSize: 15,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'TTnorms',
+);
+
+const kNoteTitle = TextStyle(
+  color: Colors.black,
+  fontSize: 20,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'TTnorms',
+);
+
+const kNoteDescription = TextStyle(
+  color: Colors.black,
+  fontSize: 17,
+  fontWeight: FontWeight.w500,
   fontFamily: 'TTnorms',
 );

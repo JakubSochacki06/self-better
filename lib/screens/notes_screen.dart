@@ -11,30 +11,38 @@ class NotesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 0.0,
+        actions: [
+          IconButton(
+            icon: Icon(FontAwesomeIcons.add, color: Colors.black),
+            onPressed: (){
+              PersistentNavBarNavigator.pushNewScreen(
+                context,
+                screen: AddNotePage(),
+                withNavBar: false, // OPTIONAL VALUE. True by default.
+                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+              );
+            },
+          ),
+        ],
+        title: Text('Diary', style: kNotesScreenTitle),
+      ),
       body: SafeArea(
-        child: Column(
-          children: [
-            ListTile(
-              title: Center(child: Text('Diary', style: kNotesScreenTitle)),
-              leading: IconButton(
-                icon: Icon(FontAwesomeIcons.kitchenSet),
-                onPressed: (){
-                },
-              ),
-              trailing: IconButton(
-                icon: Icon(FontAwesomeIcons.add),
-                onPressed: (){
-                  PersistentNavBarNavigator.pushNewScreen(
-                    context,
-                    screen: AddNotePage(),
-                    withNavBar: false, // OPTIONAL VALUE. True by default.
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  );
-                },
+        child: Center(
+          child: Container(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              child: Column(
+                children: [
+                  NotesList(),
+                ],
               ),
             ),
-            NotesList(),
-          ],
+          ),
         ),
       ),
     );
