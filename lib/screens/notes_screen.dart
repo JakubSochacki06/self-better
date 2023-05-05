@@ -15,7 +15,6 @@ class NotesPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        elevation: 0.0,
         actions: [
           IconButton(
             icon: Icon(FontAwesomeIcons.add, color: Colors.black),
@@ -32,15 +31,14 @@ class NotesPage extends StatelessWidget {
         title: Text('Diary', style: kNotesScreenTitle),
       ),
       body: SafeArea(
-        child: Center(
-          child: Container(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Column(
-                children: [
-                  NotesList(),
-                ],
-              ),
+        child: Container(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            child: Column(
+              children: [
+                // TODO: Add text like no notes left yet and quick guide how to add them
+                NotesList(),
+              ],
             ),
           ),
         ),

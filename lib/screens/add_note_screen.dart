@@ -47,8 +47,10 @@ class _AddNotePageState extends State<AddNotePage> {
 
   void sendData() async{
       List<dynamic>? notes = await FirestoreHelper.getUserDataFromDataField('notes', user.email!);
+      int noteID;
+      notes!.length == 0? noteID = 0: noteID = notes.last.values.toList()[0][4] + 1;
       DateTime now = new DateTime.now();
-      List<dynamic> notesData = [_titleController.text, _descriptionController.text, activeGeneralEmoji];
+      List<dynamic> notesData = [_titleController.text, _descriptionController.text, activeGeneralEmoji, _pickedImage == null? false : true, noteID];
       Map data = {'${now.day}, ${now.month}, ${now.year}': notesData};
       print(notes);
       if(notes == null){

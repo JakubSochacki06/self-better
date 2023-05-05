@@ -12,6 +12,7 @@ class FirestoreHelper{
          }
        }
      }
+     return null;
   }
 
    static void addDataToFirestore(String collectionName, String documentName, String documentFieldName, dynamic documentData) async{

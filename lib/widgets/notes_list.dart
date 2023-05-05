@@ -18,7 +18,7 @@ class _NotesListState extends State<NotesList> {
   void setUpMonthlyNotes(dynamic snapshotData) {
     userNotes = [];
     Map<String, List<Widget>> monthlyNotes = {};
-    for (Map<String, dynamic> note in snapshotData['notes']) {
+    for (Map<String, dynamic> note in snapshotData['notes'].reversed) {
       // TODO: Chanage firebase storing, maybe list not map
       String day = note.keys.toList()[0].split(',')[0];
       String month = note.keys.toList()[0].split(',')[1];
@@ -26,6 +26,8 @@ class _NotesListState extends State<NotesList> {
       String noteTitle = note.values.toList()[0][0];
       String noteDescription = note.values.toList()[0][1];
       int noteFeeling = note.values.toList()[0][2];
+      bool hasPhoto = note.values.toList()[0][3];
+      int noteID = note.values.toList()[0][4];
       List months = [
         'January',
         'February',
@@ -61,7 +63,9 @@ class _NotesListState extends State<NotesList> {
             noteDescription: noteDescription,
             feeling: noteFeeling,
             day: day,
-            month: monthName,
+            monthName: monthName,
+            hasPhoto: hasPhoto,
+            noteID: noteID,
           )
         ];
       } else {
@@ -72,7 +76,9 @@ class _NotesListState extends State<NotesList> {
             noteDescription: noteDescription,
             feeling: noteFeeling,
             day: day,
-            month: monthName,
+            monthName: monthName,
+            hasPhoto: hasPhoto,
+            noteID: noteID,
           ),
         ));
       }

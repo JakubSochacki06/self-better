@@ -1,7 +1,8 @@
-// Plik tworzy stronę, która pokazuje informacje o profilu oraz pozwala się wylogować z aplikacji.
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:selfbetter/screens/landing_screen.dart';
 
 class UserProfilePage extends StatelessWidget {
   final user = FirebaseAuth.instance.currentUser!;
@@ -51,7 +52,12 @@ class UserProfilePage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 _FirebaseAuth.signOut();
-                Navigator.pushNamed(context, '/landing');
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: LandingPage(),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
               },
               child: Text('Wyloguj się'),
               style: ElevatedButton.styleFrom(
