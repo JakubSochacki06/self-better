@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:selfbetter/helpers/firestore_helper.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:selfbetter/screens/note_details_screen.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class NoteTile extends StatelessWidget {
   final String noteTitle;
@@ -63,31 +65,39 @@ class NoteTile extends StatelessWidget {
   Widget build(BuildContext context) {
     String feelingString = feelingToString[feeling.toString()];
     double width = MediaQuery.of(context).size.width;
-    return Container(
-      decoration: BoxDecoration(
-          color: Color(0xFFF0F2F5), borderRadius: BorderRadius.circular(20)),
-      height: 200,
-      width: width - 50,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  child: Image.asset(
-                      'assets/images/emojis/${feelingString}-emoji.png'),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
+    return GestureDetector(
+      onTap: (){
+        PersistentNavBarNavigator.pushNewScreen(
+          context,
+          screen: NoteDetailsPage(title: noteTitle, description: noteDescription, feelingImagePath: 'assets/images/emojis/${feelingString}-emoji.png', userEmail: user.email!, day: day, month: monthName, hasPhoto: hasPhoto,),
+          withNavBar: false, // OPTIONAL VALUE. True by default.
+          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            color: Color(0xFFF0F2F5), borderRadius: BorderRadius.circular(20)),
+        height: 200,
+        width: width - 50,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 60,
+                    height: 60,
+                    child: Image.asset(
+                        'assets/images/emojis/${feelingString}-emoji.png'),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Column(
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Column(
                     children: [
                       Align(
                         alignment: Alignment.centerLeft,
@@ -108,58 +118,57 @@ class NoteTile extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-                Text('Photo: '),
-                Icon(hasPhoto == true
-                    ? FontAwesomeIcons.check
-                    : FontAwesomeIcons.x),
-                SizedBox(
-                  width: 10,
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    FontAwesomeIcons.pen,
-                    color: Colors.black38,
+                  SizedBox(width: 10,),
+                  Text('Photo: '),
+                  Icon(hasPhoto == true
+                      ? FontAwesomeIcons.check
+                      : FontAwesomeIcons.x),
+                  Spacer(),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      FontAwesomeIcons.pen,
+                      color: Colors.black38,
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () async{
-                    bool wantToDelete = await wantToDeleteNoteAlert(context);
-                    if(wantToDelete){
-                      List<dynamic> notes = await FirestoreHelper.getUserDataFromDataField('notes', user.email!);
-                      int indexOfNoteToRemove = notes.indexWhere((element) => element.values.toList()[0][4] == noteID);
-                      notes.removeAt(indexOfNoteToRemove);
-                      FirestoreHelper.addDataToFirestore('users_data', user.email!, 'notes', notes);
-                    }
-                  },
-                  icon: Icon(
-                    FontAwesomeIcons.trash,
-                    color: Colors.black38,
+                  IconButton(
+                    onPressed: () async{
+                      bool wantToDelete = await wantToDeleteNoteAlert(context);
+                      if(wantToDelete){
+                        List<dynamic> notes = await FirestoreHelper.getUserDataFromDataField('notes', user.email!);
+                        int indexOfNoteToRemove = notes.indexWhere((element) => element.values.toList()[0][4] == noteID);
+                        notes.removeAt(indexOfNoteToRemove);
+                        FirestoreHelper.addDataToFirestore('users_data', user.email!, 'notes', notes);
+                      }
+                    },
+                    icon: Icon(
+                      FontAwesomeIcons.trash,
+                      color: Colors.black38,
+                    ),
                   ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  noteTitle,
+                  style: kNoteTitle,
                 ),
-              ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                noteTitle,
-                style: kNoteTitle,
               ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                noteDescription,
-                style: kNoteDescription,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 4,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  noteDescription,
+                  style: kNoteDescription,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 4,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

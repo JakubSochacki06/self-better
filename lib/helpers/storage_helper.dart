@@ -11,4 +11,9 @@ class StorageHelper{
       print(e);
     }
   }
+
+  static Future<String> getImageURL(String fileName, String userEmail) async{
+    final FirebaseStorage storage = FirebaseStorage.instance;
+    return await storage.ref('notes/${userEmail}/${fileName}').getDownloadURL();
+  }
 }
