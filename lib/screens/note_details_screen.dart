@@ -63,7 +63,7 @@ class NoteDetailsPage extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
                       return Container(
-                        width: 300,
+                        width: 200,
                         height: 250,
                         child: Image.network(snapshot.data!, fit: BoxFit.cover,),
                       );

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:selfbetter/screens/home_screen.dart';
+import 'package:selfbetter/screens/navigation_bar.dart';
 import 'package:selfbetter/screens/landing_screen.dart';
 
 class LoggingPage extends StatefulWidget {
@@ -22,7 +22,7 @@ class _LoggingPageState extends State<LoggingPage> {
           if (snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData){
-            return HomePage();
+            return PageNavigator();
           } else if (snapshot.hasError){
             return Center(child: Text('Something went Wrong!'));
           } else {

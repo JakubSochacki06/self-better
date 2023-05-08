@@ -71,3 +71,38 @@ const kNoteDescription = TextStyle(
   fontWeight: FontWeight.w500,
   fontFamily: 'TTnorms',
 );
+
+const kHomePageGreeting = TextStyle(
+  color: Colors.black,
+  fontSize: 25,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'TTnorms',
+);
+
+const kHomePageWish = TextStyle(
+  color: Colors.black45,
+  fontSize: 15,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'TTnorms',
+);
+
+const kHomePageTitle = TextStyle(
+  color: Colors.black,
+  fontSize: 20,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'TTnorms',
+);
+
+const kToolContainerTitle = TextStyle(
+  color: Colors.black,
+  fontSize: 20,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'TTnorms',
+);
+
+const kToolContainerSubject = TextStyle(
+  color: Colors.black45,
+  fontSize: 15,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'TTnorms',
+);

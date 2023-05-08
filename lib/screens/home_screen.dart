@@ -1,98 +1,124 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:selfbetter/helpers/firestore_helper.dart';
+import 'package:selfbetter/screens/notes_screen.dart';
+import 'package:selfbetter/screens/rate_your_day_screen.dart';
+import 'package:selfbetter/text_styles.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'rate_your_day_screen.dart';
-import 'user_profile_screen.dart';
-import 'notes_screen.dart';
+import 'package:selfbetter/widgets/tool_container.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+class HomePage extends StatelessWidget {
+  final user = FirebaseAuth.instance.currentUser!;
 
-class HomePage extends StatefulWidget {
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
-    List<Widget> _widgetOptions = <Widget>[
-      Text(
-        'Home',
+    return SafeArea(
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Spacer(),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black38, width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(FontAwesomeIcons.star),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text('354 PTS'),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          width: 40,
+                          height: 40,
+                          child: Image.network(
+                            'https://cdn.betterttv.net/emote/5f65d6494c714103dfb56ca5/3x.webp',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  user.displayName == null
+                      ? 'Hey ${user.email},'
+                      : 'Hey ${user.displayName},',
+                  style: kHomePageGreeting,
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text('hope you are well today!', style: kHomePageWish),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Your toolbox', style: kHomePageTitle),
+              ),
+              SizedBox(height: 15,),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ToolContainer(
+                        title: 'notes',
+                        backgroundColor: Color(0xFFFFF2CC),
+                        emojiBackgroundColor: Color(0x80FADAB1),
+                        future: FirestoreHelper.getUserDataFromDataField('notes', user.email!),
+                        subject: 'notes',
+                      onTap: (){
+                        print('change index of navbar');
+                      },
+                    ),
+                    SizedBox(width: 15,),
+                    ToolContainer(
+                        title: 'day ratings',
+                        backgroundColor: Color(0xFFE7F3FF),
+                        emojiBackgroundColor: Color(0xFFD2E7FD),
+                        future: FirestoreHelper.getUserDataFromDataField('day_ratings', user.email!),
+                        subject: 'day rates',
+                      onTap: (){
+                          print('change index of navbar');
+                      },),
+                    SizedBox(width: 15,),
+                    ToolContainer(
+                      title: 'day ratings',
+                      backgroundColor: Color(0xFFE7F3FF),
+                      emojiBackgroundColor: Color(0xFFD2E7FD),
+                      future: FirestoreHelper.getUserDataFromDataField('day_ratings', user.email!),
+                      subject: 'day rates',
+                      onTap: (){
+                        print('change index of navbar');
+                      },),
+                    SizedBox(width: 15,),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
       ),
-      NotesPage(),
-      RateYourDayPage(),
-      Text('Stats'),
-      UserProfilePage(),
-    ];
-
-    List<PersistentBottomNavBarItem> _navBarsItems() {
-      return [
-        PersistentBottomNavBarItem(
-          icon: Icon(FontAwesomeIcons.home),
-          activeColorPrimary: Colors.black,
-          inactiveColorPrimary: Colors.grey.shade500,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Icon(FontAwesomeIcons.noteSticky),
-          activeColorPrimary: Colors.black,
-          inactiveColorPrimary: Colors.grey.shade500,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Center(child: Icon(FontAwesomeIcons.add, color: Colors.white)),
-          activeColorPrimary: Color(0xFF27B5BE),
-          inactiveColorPrimary: Colors.grey.shade300,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Icon(FontAwesomeIcons.chartSimple),
-          activeColorPrimary: Colors.black,
-          inactiveColorPrimary: Colors.grey.shade500,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Icon(FontAwesomeIcons.user),
-          activeColorPrimary: Colors.black,
-          inactiveColorPrimary: Colors.grey.shade500,
-        ),
-      ];
-    }
-
-    PersistentTabController _controller;
-
-    _controller = PersistentTabController(initialIndex: 0);
-
-
-    return PersistentTabView(
-      context,
-      controller: _controller,
-      screens: _widgetOptions,
-      items: _navBarsItems(),
-      confineInSafeArea: true,
-      backgroundColor: Colors.white, // Default is Colors.white.
-      handleAndroidBackButtonPress: true, // Default is true.
-      resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-      stateManagement: true, // Default is true.
-      hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-      decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        colorBehindNavBar: Colors.white,
-      ),
-      popAllScreensOnTapOfSelectedTab: true,
-      popActionScreens: PopActionScreensType.all,
-      itemAnimationProperties: ItemAnimationProperties( // Navigation Bar's items animation properties.
-        duration: Duration(milliseconds: 200),
-        curve: Curves.ease,
-      ),
-      screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
-        animateTabTransition: true,
-        curve: Curves.ease,
-        duration: Duration(milliseconds: 200),
-      ),
-      navBarStyle: NavBarStyle.style15, // Choose the nav bar style with this property.
     );
   }
 }
-
-
