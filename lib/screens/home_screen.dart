@@ -1,12 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:selfbetter/helpers/firestore_helper.dart';
-import 'package:selfbetter/screens/notes_screen.dart';
-import 'package:selfbetter/screens/rate_your_day_screen.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:selfbetter/widgets/tool_container.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:selfbetter/widgets/summary_box.dart';
+import 'package:provider/provider.dart';
+import 'package:selfbetter/widgets/selfcare_card.dart';
+
+List<dynamic> activities = [
+  ['Meditation', Color(0xFFC4F1CD), Colors.white, '30'],
+  ['Journaling', Color(0xFFE5EEC2), Colors.white, '20'],
+  ['Gymnastics', Color(0xFFAAEDE9), Colors.white, '10-15'],
+  ['Mindful walking', Color(0xFFBFE9EF), Colors.white, '30+'],
+  ['Mindful walking', Color(0xFFBFE9EF), Colors.white, '30+'],
+  ['Mindful walking', Color(0xFFBFE9EF), Colors.white, '30+'],
+];
 
 class HomePage extends StatelessWidget {
   final user = FirebaseAuth.instance.currentUser!;
@@ -15,8 +24,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(25),
           child: Column(
             children: [
               Row(
@@ -74,47 +83,79 @@ class HomePage extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Your toolbox', style: kHomePageTitle),
+                child: Text('Your summary', style: kHomePageTitle),
               ),
-              SizedBox(height: 15,),
+              SizedBox(
+                height: 15,
+              ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    ToolContainer(
-                        title: 'notes',
-                        backgroundColor: Color(0xFFFFF2CC),
-                        emojiBackgroundColor: Color(0x80FADAB1),
-                        future: FirestoreHelper.getUserDataFromDataField('notes', user.email!),
-                        subject: 'notes',
-                      onTap: (){
-                        print('change index of navbar');
-                      },
+                    SummaryBox(
+                      title: 'notes',
+                      backgroundColor: Color(0xFFFFF2CC),
+                      emojiBackgroundColor: Color(0x80FADAB1),
+                      future: FirestoreHelper.getUserDataFromDataField(
+                          'notes', user.email!),
+                      subject: 'notes',
                     ),
-                    SizedBox(width: 15,),
-                    ToolContainer(
-                        title: 'day ratings',
-                        backgroundColor: Color(0xFFE7F3FF),
-                        emojiBackgroundColor: Color(0xFFD2E7FD),
-                        future: FirestoreHelper.getUserDataFromDataField('day_ratings', user.email!),
-                        subject: 'day rates',
-                      onTap: (){
-                          print('change index of navbar');
-                      },),
-                    SizedBox(width: 15,),
-                    ToolContainer(
+                    SizedBox(
+                      width: 15,
+                    ),
+                    SummaryBox(
                       title: 'day ratings',
                       backgroundColor: Color(0xFFE7F3FF),
                       emojiBackgroundColor: Color(0xFFD2E7FD),
-                      future: FirestoreHelper.getUserDataFromDataField('day_ratings', user.email!),
+                      future: FirestoreHelper.getUserDataFromDataField(
+                          'day_ratings', user.email!),
                       subject: 'day rates',
-                      onTap: (){
-                        print('change index of navbar');
-                      },),
-                    SizedBox(width: 15,),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    SummaryBox(
+                      title: 'day ratings',
+                      backgroundColor: Color(0xFFE7F3FF),
+                      emojiBackgroundColor: Color(0xFFD2E7FD),
+                      future: FirestoreHelper.getUserDataFromDataField(
+                          'day_ratings', user.email!),
+                      subject: 'day rates',
+                    ),
                   ],
                 ),
-              )
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Self-care', style: kHomePageTitle),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Container(
+                height: 545,
+                child: GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: 6,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 2/2,
+                      crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10
+                  ),
+                  itemBuilder: (context, index) {
+                    return SelfcareCard(
+                        title: activities[index][0],
+                        backgroundColor: activities[index][1],
+                        emojiBackgroundColor: activities[index][2],
+                        time: activities[index][3],
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         ),
