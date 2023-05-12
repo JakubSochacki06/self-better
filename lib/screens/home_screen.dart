@@ -13,8 +13,8 @@ List<dynamic> activities = [
   ['Journaling', Color(0xFFE5EEC2), Colors.white, '20'],
   ['Gymnastics', Color(0xFFAAEDE9), Colors.white, '10-15'],
   ['Mindful walking', Color(0xFFBFE9EF), Colors.white, '30+'],
-  ['Mindful walking', Color(0xFFBFE9EF), Colors.white, '30+'],
-  ['Mindful walking', Color(0xFFBFE9EF), Colors.white, '30+'],
+  ['Reading', Color(0xFFC3C8F5), Colors.white, '20'],
+  ['Singing', Color(0xFFC7E9B0), Colors.white, '5'],
 ];
 
 class HomePage extends StatelessWidget {

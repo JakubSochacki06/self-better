@@ -6,6 +6,7 @@ import 'user_profile_screen.dart';
 import 'notes_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'home_screen.dart';
+import 'stats_screen.dart';
 
 
 class PageNavigator extends StatefulWidget {
@@ -22,7 +23,7 @@ class _PageNavigatorState extends State<PageNavigator> {
       HomePage(),
       NotesPage(),
       RateYourDayPage(),
-      Text('Stats'),
+      StatsPage(),
       UserProfilePage(),
     ];
 

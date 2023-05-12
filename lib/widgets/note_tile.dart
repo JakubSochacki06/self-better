@@ -107,7 +107,7 @@ class NoteTile extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
