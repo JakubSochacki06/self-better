@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:selfbetter/helpers/firestore_helper.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:selfbetter/widgets/feeling_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 final db = FirebaseFirestore.instance;
 final user = FirebaseAuth.instance.currentUser!;
@@ -69,57 +71,55 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
   }
 
   void sendData() async {
-    List activeEmojis = [
-      activeGeneralEmoji,
-      emojiTiredIsActive,
-      emojiLonelyIsActive,
-      emojiBadMentalIsActive,
-      emojiOverthinkingIsActive,
-      emojiStressedIsActive,
-      emojiSuccessIsActive,
-      emojiAnnoyedIsActive,
-      emojiProudIsActive,
-      emojiAnxiousIsActive,
-      goodDayActive
+    List<String> feelingNameAsIndex = [
+      'angry',
+      'sad',
+      'mixed',
+      'neutral',
+      'happy'
     ];
-    DateTime now = new DateTime.now();
-    Map data = {
-      '${now.day}, ${now.month}, ${now.year}':
-      activeEmojis
+    Map<String, dynamic> activeEmojis = {
+      'feeling': feelingNameAsIndex[activeGeneralEmoji - 1],
+      'tired':emojiTiredIsActive,
+      'lonely':emojiLonelyIsActive,
+      'bad mental':emojiBadMentalIsActive,
+      'overthinking':emojiOverthinkingIsActive,
+      'stressed':emojiStressedIsActive,
+      'sucess':emojiSuccessIsActive,
+      'annoyed':emojiAnnoyedIsActive,
+      'proud':emojiProudIsActive,
+      'anxious':emojiAnxiousIsActive,
+      'was good day':goodDayActive
     };
-    List<dynamic>? dayRatings =
+    String now = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    Map<dynamic, dynamic> data = {
+      now:activeEmojis
+    };
+    Map<dynamic, dynamic>? dayRatings =
     await FirestoreHelper.getUserDataFromDataField(
         'day_ratings', user.email!);
+    print(dayRatings);
+    print(data);
     if (dayRatings == null) {
       FirestoreHelper.addDataToFirestore('users_data',
-          user.email!, 'day_ratings', [data]);
+          user.email!, 'day_ratings', data);
       return;
     } else {
-      List<dynamic> ratings = dayRatings;
       // Checks if user is NOT trying to sumbit same day
-      var lastEntryKey = ratings[ratings.length - 1]
-          .entries
-          .toList()[0]
-          .key;
-      if (!(lastEntryKey ==
-          '${now.day}, ${now.month}, ${now.year}')) {
-        ratings.add({
-          '${now.day}, ${now.month}, ${now.year}':
-          activeEmojis
-        });
+      var lastSubmittedDay = dayRatings.keys.toList().reversed.first;
+      if (!(lastSubmittedDay == now)) {
+        dayRatings[now]=activeEmojis;
         FirestoreHelper.addDataToFirestore('users_data',
-            user.email!, 'day_ratings', ratings);
+            user.email!, 'day_ratings', dayRatings);
       } else {
-        if (listEquals(
-            ratings[ratings.length - 1]
-            ['${now.day}, ${now.month}, ${now.year}'],
-            data[
-            '${now.day}, ${now.month}, ${now.year}'])) {
+        var lastSubmittedData = dayRatings.values.toList().reversed.first;
+        if (lastSubmittedData == activeEmojis)
+        {
           return;
         }
-        ratings[ratings.length - 1] = data;
+        dayRatings[now] = activeEmojis;
         FirestoreHelper.addDataToFirestore('users_data',
-            user.email!, 'day_ratings', ratings);
+            user.email!, 'day_ratings', dayRatings);
       }
       return;
     }

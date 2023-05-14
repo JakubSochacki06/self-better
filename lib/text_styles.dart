@@ -106,3 +106,9 @@ const kToolContainerSubject = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'TTnorms',
 );
+
+const kStatsPageTitle = TextStyle(
+  color: Colors.black,
+  fontSize: 20,
+  fontWeight: FontWeight.w500,
+);
