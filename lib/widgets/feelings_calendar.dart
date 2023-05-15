@@ -111,8 +111,11 @@ class FeelingsCalendar extends StatelessWidget {
             /// null for not rendering any border, true for circular border, false for rectangular border
           );
         } else {
-          return Center(
-            child: CircularProgressIndicator(),
+          return Container(
+            height: 390,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         }
       },

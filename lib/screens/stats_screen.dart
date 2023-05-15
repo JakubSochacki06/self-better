@@ -10,13 +10,17 @@ class _StatsPageState extends State<StatsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            FeelingsCalendar(),
-            RecentMoodsTable(),
-          ],
+      body: SafeArea(
+        child: Container(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                FeelingsCalendar(),
+                RecentMoodsTable(),
+              ],
+            ),
+          ),
         ),
       ),
     );
