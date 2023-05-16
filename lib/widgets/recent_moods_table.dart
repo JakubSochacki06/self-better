@@ -3,7 +3,7 @@ import 'package:selfbetter/helpers/firestore_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:selfbetter/widgets/mood_chart.dart';
-
+User user = FirebaseAuth.instance.currentUser!;
 class RecentMoodsTable extends StatefulWidget {
   const RecentMoodsTable({Key? key}) : super(key: key);
 
@@ -12,10 +12,22 @@ class RecentMoodsTable extends StatefulWidget {
 }
 
 class _RecentMoodsTableState extends State<RecentMoodsTable> {
-  User user = FirebaseAuth.instance.currentUser!;
+  Future _future = FirestoreHelper.getUserDataFromDataField(
+      'day_ratings', user.email!);
+
+  Future<dynamic> getNewFuture() async {
+    return FirestoreHelper.getUserDataFromDataField(
+        'day_ratings', user.email!);
+  }
+  void refreshData() {
+    setState(() {
+      _future = getNewFuture();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    int amountOfDays = 7;
+    int amountOfMoods = 14;
     return Column(
       children: [
         Align(
@@ -29,17 +41,35 @@ class _RecentMoodsTableState extends State<RecentMoodsTable> {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              TextButton(onPressed: () {}, child: Text('Last 7 days')),
-              TextButton(onPressed: () {}, child: Text('Last 14 days')),
-              TextButton(onPressed: () {}, child: Text('Last 30 days')),
-              TextButton(onPressed: () {}, child: Text('Last 90 days')),
+              TextButton(
+                  onPressed: () {
+                      amountOfMoods = 7;
+                      refreshData();
+                  },
+                  child: Text('Last 7 moods')),
+              TextButton(
+                  onPressed: () {
+                      amountOfMoods = 14;
+                      refreshData();
+                  },
+                  child: Text('Last 14 moods')),
+              TextButton(onPressed: () {}, child: Text('Last 30 moods')),
+              TextButton(onPressed: () {}, child: Text('Last 90 moods')),
             ],
           ),
         ),
         FutureBuilder(
-          future: FirestoreHelper.getUserDataFromDataField('day_ratings', user.email!),
+          future: _future,
           builder: (context, snapshot) {
-            return MoodChart(amountOfMoods: amountOfDays, snapshotData: snapshot.data,);
+            if (snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              return MoodChart(
+                amountOfMoods: amountOfMoods,
+                snapshotData: snapshot.data,
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
           },
         ),
       ],

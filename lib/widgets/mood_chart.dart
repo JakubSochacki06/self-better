@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MoodChart extends StatelessWidget {
   final int amountOfMoods;
@@ -10,19 +11,27 @@ class MoodChart extends StatelessWidget {
   List<Color> gradientColors = [Colors.red, Colors.orange, Colors.green];
   List<FlSpot> spots = [];
 
-  // void setSpots(int amountOfDays, dynamic snapshotData) {
-  //   final endDate = DateTime.now().subtract(Duration(days: amountOfDays));
-  //   f
-  //   snapshotData.forEach((key, value) {
-  //     if (DateTime.parse(key).isAfter(endDate)) {
-  //       spots
-  //     }
-  //   });
-  // }
+  void setSpots(int amountOfMoods, dynamic snapshotData) {
+    Map<DateTime, Map<String, dynamic>> orderedData = {};
+
+    List<dynamic> sortedKeys = snapshotData.keys
+        .map((key) => DateFormat('yyyy-MM-dd').parse(key))
+        .toList()
+      ..sort();
+
+    for (var key in sortedKeys) {
+      orderedData[key] = snapshotData[DateFormat('yyyy-MM-dd').format(key)]!;
+    }
+    List<dynamic> chosenAmountOfSortedValues = orderedData.values.toList().reversed.toList().sublist(0,amountOfMoods);
+    for(int i = 0;i< chosenAmountOfSortedValues.length;i++){
+      int feelingAsNumber = chosenAmountOfSortedValues.toList()[i]['feelingAsNumber'];
+      spots.add(FlSpot(i.toDouble(), feelingAsNumber.toDouble()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // setSpots(amountOfMoods, snapshotData);
+    setSpots(amountOfMoods, snapshotData);
     return Stack(
       children: <Widget>[
         AspectRatio(
@@ -43,20 +52,32 @@ class MoodChart extends StatelessWidget {
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
-    Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('MAR', style: style);
-        break;
-      case 5:
-        text = const Text('JUN', style: style);
-        break;
-      case 8:
-        text = const Text('SEP', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
+    Text text = Text('', style: style);
+    if(!(value>snapshotData.keys.toList().length)){
+      if(value < amountOfMoods){
+        List<dynamic> sortedDates = snapshotData.keys.toList()
+            .map((dateString) => DateFormat('yyyy-MM-dd').parse(dateString))
+            .toList();
+        sortedDates.sort((a, b) => a.day.compareTo(b.day));
+        List<dynamic> chosenAmountOfSortedDates = sortedDates.reversed.toList().sublist(0,amountOfMoods);
+        DateTime date = chosenAmountOfSortedDates.reversed.toList()[value.toInt()];
+        List<String> months = [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December'
+        ];
+        String monthName = months[date.month - 1];
+        text = Text('${date.day} ${monthName}');
+      };
     }
 
     return SideTitleWidget(
@@ -99,6 +120,7 @@ class MoodChart extends StatelessWidget {
   }
 
   LineChartData mainData() {
+    print(spots);
     return LineChartData(
       titlesData: FlTitlesData(
         show: true,
@@ -135,16 +157,7 @@ class MoodChart extends StatelessWidget {
       maxY: 5,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 1),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-            FlSpot(14, 2),
-          ],
+          spots: spots,
           isCurved: true,
           gradient: LinearGradient(
             // stops: [1,3,5],

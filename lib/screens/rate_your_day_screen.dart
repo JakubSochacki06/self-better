@@ -80,6 +80,7 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
     ];
     Map<String, dynamic> activeEmojis = {
       'feeling': feelingNameAsIndex[activeGeneralEmoji - 1],
+      'feelingAsNumber':activeGeneralEmoji,
       'tired':emojiTiredIsActive,
       'lonely':emojiLonelyIsActive,
       'bad mental':emojiBadMentalIsActive,
@@ -98,8 +99,6 @@ class _RateYourDayPageState extends State<RateYourDayPage> {
     Map<dynamic, dynamic>? dayRatings =
     await FirestoreHelper.getUserDataFromDataField(
         'day_ratings', user.email!);
-    print(dayRatings);
-    print(data);
     if (dayRatings == null) {
       FirestoreHelper.addDataToFirestore('users_data',
           user.email!, 'day_ratings', data);
