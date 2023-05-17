@@ -5,26 +5,19 @@ import 'package:selfbetter/text_styles.dart';
 import 'package:selfbetter/widgets/mood_chart.dart';
 User user = FirebaseAuth.instance.currentUser!;
 class RecentMoodsTable extends StatefulWidget {
-  const RecentMoodsTable({Key? key}) : super(key: key);
 
   @override
   State<RecentMoodsTable> createState() => _RecentMoodsTableState();
 }
 
 class _RecentMoodsTableState extends State<RecentMoodsTable> {
-  Future _future = FirestoreHelper.getUserDataFromDataField(
-      'day_ratings', user.email!);
+  late Future<dynamic> dataFuture;
 
-  Future<dynamic> getNewFuture() async {
-    return FirestoreHelper.getUserDataFromDataField(
-        'day_ratings', user.email!);
+  @override
+  void initState() {
+    dataFuture = FirestoreHelper.getUserDataFromDataField('day_ratings', user.email!);
+    super.initState();
   }
-  void refreshData() {
-    setState(() {
-      _future = getNewFuture();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     int amountOfMoods = 14;
@@ -37,30 +30,10 @@ class _RecentMoodsTableState extends State<RecentMoodsTable> {
             style: kStatsPageTitle,
           ),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              TextButton(
-                  onPressed: () {
-                      amountOfMoods = 7;
-                      refreshData();
-                  },
-                  child: Text('Last 7 moods')),
-              TextButton(
-                  onPressed: () {
-                      amountOfMoods = 14;
-                      refreshData();
-                  },
-                  child: Text('Last 14 moods')),
-              TextButton(onPressed: () {}, child: Text('Last 30 moods')),
-              TextButton(onPressed: () {}, child: Text('Last 90 moods')),
-            ],
-          ),
-        ),
         FutureBuilder(
-          future: _future,
+          future: dataFuture,
           builder: (context, snapshot) {
+            print(amountOfMoods);
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
               return MoodChart(

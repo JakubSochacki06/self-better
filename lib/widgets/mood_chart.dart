@@ -2,16 +2,23 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class MoodChart extends StatelessWidget {
-  final int amountOfMoods;
+class MoodChart extends StatefulWidget {
+  int amountOfMoods;
   final dynamic snapshotData;
 
   MoodChart({required this.snapshotData, required this.amountOfMoods});
 
+  @override
+  State<MoodChart> createState() => _MoodChartState();
+}
+
+class _MoodChartState extends State<MoodChart> {
   List<Color> gradientColors = [Colors.red, Colors.orange, Colors.green];
+
   List<FlSpot> spots = [];
 
   void setSpots(int amountOfMoods, dynamic snapshotData) {
+    spots = [];
     Map<DateTime, Map<String, dynamic>> orderedData = {};
 
     List<dynamic> sortedKeys = snapshotData.keys
@@ -22,25 +29,60 @@ class MoodChart extends StatelessWidget {
     for (var key in sortedKeys) {
       orderedData[key] = snapshotData[DateFormat('yyyy-MM-dd').format(key)]!;
     }
-    List<dynamic> chosenAmountOfSortedValues = orderedData.values.toList().reversed.toList().sublist(0,amountOfMoods);
-    for(int i = 0;i< chosenAmountOfSortedValues.length;i++){
-      int feelingAsNumber = chosenAmountOfSortedValues.toList()[i]['feelingAsNumber'];
+    List<dynamic> chosenAmountOfSortedValues =
+        orderedData.values.toList().reversed.toList().sublist(0, amountOfMoods);
+    for (int i = 0; i < chosenAmountOfSortedValues.length; i++) {
+      int feelingAsNumber =
+          chosenAmountOfSortedValues.toList()[i]['feelingAsNumber'];
       spots.add(FlSpot(i.toDouble(), feelingAsNumber.toDouble()));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    setSpots(amountOfMoods, snapshotData);
+    setSpots(widget.amountOfMoods, widget.snapshotData);
     return Stack(
       children: <Widget>[
         AspectRatio(
           aspectRatio: 1.7,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: LineChart(
-              mainData(),
-            ),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            setState(() {
+                              widget.amountOfMoods = 7;
+                            });
+                          }, child: Text('Last 7 moods')),
+                      TextButton(
+                          onPressed: () {
+                            setState(() {
+                              widget.amountOfMoods = 14;
+                            });
+                          }, child: Text('Last 14 moods')),
+                      TextButton(
+                          onPressed: () {}, child: Text('Last 30 moods')),
+                      TextButton(
+                          onPressed: () {}, child: Text('Last 90 moods')),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                flex: 5,
+                child: LineChart(
+                  mainData(),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -53,14 +95,17 @@ class MoodChart extends StatelessWidget {
       fontSize: 16,
     );
     Text text = Text('', style: style);
-    if(!(value>snapshotData.keys.toList().length)){
-      if(value < amountOfMoods){
-        List<dynamic> sortedDates = snapshotData.keys.toList()
+    if (!(value > widget.snapshotData.keys.toList().length)) {
+      if (value < widget.amountOfMoods) {
+        List<dynamic> sortedDates = widget.snapshotData.keys
+            .toList()
             .map((dateString) => DateFormat('yyyy-MM-dd').parse(dateString))
             .toList();
         sortedDates.sort((a, b) => a.day.compareTo(b.day));
-        List<dynamic> chosenAmountOfSortedDates = sortedDates.reversed.toList().sublist(0,amountOfMoods);
-        DateTime date = chosenAmountOfSortedDates.reversed.toList()[value.toInt()];
+        List<dynamic> chosenAmountOfSortedDates =
+            sortedDates.reversed.toList().sublist(0, widget.amountOfMoods);
+        DateTime date =
+            chosenAmountOfSortedDates.reversed.toList()[value.toInt()];
         List<String> months = [
           'January',
           'February',
@@ -77,7 +122,8 @@ class MoodChart extends StatelessWidget {
         ];
         String monthName = months[date.month - 1];
         text = Text('${date.day} ${monthName}');
-      };
+      }
+      ;
     }
 
     return SideTitleWidget(
@@ -111,8 +157,7 @@ class MoodChart extends StatelessWidget {
     return Container(
       width: 30,
       height: 30,
-      child: Image.asset(
-          'assets/images/emojis/${feelingName}-emoji.png'),
+      child: Image.asset('assets/images/emojis/${feelingName}-emoji.png'),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
       ),
@@ -120,7 +165,6 @@ class MoodChart extends StatelessWidget {
   }
 
   LineChartData mainData() {
-    print(spots);
     return LineChartData(
       titlesData: FlTitlesData(
         show: true,
@@ -132,7 +176,7 @@ class MoodChart extends StatelessWidget {
         ),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: true,
+            showTitles: false,
             reservedSize: 30,
             interval: 1,
             getTitlesWidget: bottomTitleWidgets,
