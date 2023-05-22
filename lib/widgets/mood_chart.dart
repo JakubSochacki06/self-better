@@ -30,10 +30,10 @@ class _MoodChartState extends State<MoodChart> {
       orderedData[key] = snapshotData[DateFormat('yyyy-MM-dd').format(key)]!;
     }
     List<dynamic> chosenAmountOfSortedValues =
-        orderedData.values.toList().reversed.toList().sublist(0, amountOfMoods);
+    orderedData.values.toList().reversed.toList().sublist(0, amountOfMoods);
     for (int i = 0; i < chosenAmountOfSortedValues.length; i++) {
       int feelingAsNumber =
-          chosenAmountOfSortedValues.toList()[i]['feelingAsNumber'];
+      chosenAmountOfSortedValues.toList().reversed.toList()[i]['feelingAsNumber'];
       spots.add(FlSpot(i.toDouble(), feelingAsNumber.toDouble()));
     }
   }
@@ -103,9 +103,9 @@ class _MoodChartState extends State<MoodChart> {
             .toList();
         sortedDates.sort((a, b) => a.day.compareTo(b.day));
         List<dynamic> chosenAmountOfSortedDates =
-            sortedDates.reversed.toList().sublist(0, widget.amountOfMoods);
+        sortedDates.reversed.toList().sublist(0, widget.amountOfMoods);
         DateTime date =
-            chosenAmountOfSortedDates.reversed.toList()[value.toInt()];
+        chosenAmountOfSortedDates.reversed.toList()[value.toInt()];
         List<String> months = [
           'January',
           'February',
@@ -196,7 +196,7 @@ class _MoodChartState extends State<MoodChart> {
         border: Border.all(color: Colors.black12),
       ),
       minX: 0,
-      maxX: 14,
+      maxX: 13,
       minY: 1,
       maxY: 5,
       lineBarsData: [
