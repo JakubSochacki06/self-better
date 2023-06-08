@@ -111,6 +111,7 @@ class FeelingsCalendar extends StatelessWidget {
             /// null for not rendering any border, true for circular border, false for rectangular border
           );
         } else {
+          print(snapshot.data);
           return Container(
             height: 390,
             child: Center(

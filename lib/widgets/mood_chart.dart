@@ -196,7 +196,7 @@ class _MoodChartState extends State<MoodChart> {
         border: Border.all(color: Colors.black12),
       ),
       minX: 0,
-      maxX: 13,
+      maxX: widget.amountOfMoods-1,
       minY: 1,
       maxY: 5,
       lineBarsData: [

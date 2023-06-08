@@ -112,3 +112,18 @@ const kStatsPageTitle = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w500,
 );
+
+
+const kHomePageQuoteText = TextStyle(
+  color: Colors.black45,
+  fontSize: 18,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'TTnorms',
+);
+
+const kHomePageQuoteAuthor = TextStyle(
+  color: Colors.black45,
+  fontSize: 15,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'TTnorms',
+);

@@ -105,9 +105,9 @@ class _NotesListState extends State<NotesList> {
             );
           } else {
             return Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.lightBlueAccent,
-              ),
+              child: Text(
+                'No notes left yet.\nClick "+" in top right corner to add one.'
+              )
             );
           }
         });

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,7 +7,7 @@ import 'package:selfbetter/helpers/firestore_helper.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:selfbetter/widgets/summary_box.dart';
-import 'package:provider/provider.dart';
+import 'package:http/http.dart';
 import 'package:selfbetter/widgets/selfcare_card.dart';
 
 List<dynamic> activities = [
@@ -19,6 +21,12 @@ List<dynamic> activities = [
 
 class HomePage extends StatelessWidget {
   final user = FirebaseAuth.instance.currentUser!;
+
+  Future<Map<String, dynamic>> getRandomQuote() async {
+    Response response =
+        await get(Uri.parse('https://selfbetter-api.onrender.com/randomQuote'));
+    return jsonDecode(response.body);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +87,59 @@ class HomePage extends StatelessWidget {
                 child: Text('hope you are well today!', style: kHomePageWish),
               ),
               SizedBox(
-                height: 20,
+                height: 15,
+              ),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                'Quote for you:',
+                style: kHomePageTitle,
+              )),
+              SizedBox(
+                height: 10,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15.0),
+                    border: Border.all(color: Colors.green.shade600, width: 1.5),
+                    color: Colors.green.shade200,
+                  ),
+                  child: FutureBuilder(
+                    future: getRandomQuote(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                '${snapshot.data!['quote']}',
+                                style: kHomePageQuoteText,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Author: ${snapshot.data!['author']}',
+                                  style: kHomePageQuoteAuthor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Text('No internet connection');
+                      }
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 15,
               ),
               Align(
                 alignment: Alignment.centerLeft,
@@ -141,17 +201,16 @@ class HomePage extends StatelessWidget {
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: 6,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 2/2,
+                      childAspectRatio: 2 / 2,
                       crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10
-                  ),
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10),
                   itemBuilder: (context, index) {
                     return SelfcareCard(
-                        title: activities[index][0],
-                        backgroundColor: activities[index][1],
-                        emojiBackgroundColor: activities[index][2],
-                        time: activities[index][3],
+                      title: activities[index][0],
+                      backgroundColor: activities[index][1],
+                      emojiBackgroundColor: activities[index][2],
+                      time: activities[index][3],
                     );
                   },
                 ),
