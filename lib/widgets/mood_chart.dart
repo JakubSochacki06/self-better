@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:selfbetter/widgets/recent_moods_stats.dart';
 
 class MoodChart extends StatefulWidget {
   int amountOfMoods;
@@ -66,9 +68,53 @@ class _MoodChartState extends State<MoodChart> {
                             });
                           }, child: Text('Last 14 moods')),
                       TextButton(
-                          onPressed: () {}, child: Text('Last 30 moods')),
+                          onPressed: () {
+                            setState(() {
+                              if(widget.snapshotData.length < 30){
+                                final snackBar = SnackBar(
+                                  elevation: 0,
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.transparent,
+                                  content: AwesomeSnackbarContent(
+                                    title: 'On Snap!',
+                                    message:
+                                    'You don\'t have enough day ratings to see this chart!',
+                                    contentType: ContentType.failure,
+                                  ),
+                                );
+
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(snackBar);
+                              } else {
+                                widget.amountOfMoods = 30;
+                              }
+                            });
+                          }, child: Text('Last 30 moods')),
                       TextButton(
-                          onPressed: () {}, child: Text('Last 90 moods')),
+                          onPressed: () {
+                            setState(() {
+                              if(widget.snapshotData.length < 90){
+                                final snackBar = SnackBar(
+                                  elevation: 0,
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.transparent,
+                                  content: AwesomeSnackbarContent(
+                                    title: 'On Snap!',
+                                    message:
+                                    'You don\'t have enough day ratings to see this chart!',
+                                    contentType: ContentType.failure,
+                                  ),
+                                );
+
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(snackBar);
+                              } else {
+                                widget.amountOfMoods = 90;
+                              }
+                            });
+                          }, child: Text('Last 90 moods')),
                     ],
                   ),
                 ),

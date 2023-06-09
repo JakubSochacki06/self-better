@@ -132,7 +132,10 @@ class HomePage extends StatelessWidget {
                           ),
                         );
                       } else {
-                        return Text('No internet connection');
+                        return Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text('No internet connection'),
+                        );
                       }
                     },
                   ),

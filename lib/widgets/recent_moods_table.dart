@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:selfbetter/helpers/firestore_helper.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:selfbetter/widgets/mood_chart.dart';
-User user = FirebaseAuth.instance.currentUser!;
-class RecentMoodsTable extends StatefulWidget {
+import 'package:selfbetter/widgets/recent_moods_stats.dart';
 
+class RecentMoodsTable extends StatefulWidget {
+  final Map<String, dynamic> snapshotData;
+  RecentMoodsTable({required this.snapshotData});
   @override
   State<RecentMoodsTable> createState() => _RecentMoodsTableState();
 }
 
 class _RecentMoodsTableState extends State<RecentMoodsTable> {
-  late Future<dynamic> dataFuture;
-
   @override
-  void initState() {
-    dataFuture = FirestoreHelper.getUserDataFromDataField('day_ratings', user.email!);
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     int amountOfMoods = 14;
@@ -30,21 +24,10 @@ class _RecentMoodsTableState extends State<RecentMoodsTable> {
             style: kStatsPageTitle,
           ),
         ),
-        FutureBuilder(
-          future: dataFuture,
-          builder: (context, snapshot) {
-            print(amountOfMoods);
-            if (snapshot.hasData &&
-                snapshot.connectionState == ConnectionState.done) {
-              return MoodChart(
-                amountOfMoods: amountOfMoods,
-                snapshotData: snapshot.data,
-              );
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
+        MoodChart(
+          amountOfMoods: amountOfMoods,
+          snapshotData: widget.snapshotData,
+        )
       ],
     );
   }
