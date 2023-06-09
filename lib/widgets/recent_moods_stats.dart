@@ -1,6 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:selfbetter/string_extension.dart';
 import 'package:selfbetter/text_styles.dart';
+import 'string_extension.dart';
+import 'package:http/http.dart';
 
 class RecentMoodsStats extends StatefulWidget {
   final Map<String, dynamic> snapshotData;
@@ -12,12 +15,16 @@ class RecentMoodsStats extends StatefulWidget {
 }
 
 class RecentMoodsStatsState extends State<RecentMoodsStats> {
+  late Future<String> adviceFuture;
   int touchedIndex = 0;
   Map<String, int> feelingsAmount = {};
+  String averageMood = '';
+  int biggestMoodAmount = 0;
+  late Color adviceBorderColor;
+  late Color adviceBackgroundColor;
 
   void setChartData(Map<String, dynamic> snapshotData) {
     snapshotData.forEach((key, value) {
-      print(value['feeling']);
       if (feelingsAmount.containsKey(value['feeling'])) {
         feelingsAmount[value['feeling']] =
             feelingsAmount[value['feeling']]! + 1;
@@ -26,10 +33,47 @@ class RecentMoodsStatsState extends State<RecentMoodsStats> {
       }
     });
   }
+  void setAverageMood(Map<String, int> feelingsAmount){
+    feelingsAmount.forEach((key, value) {
+      if(value > biggestMoodAmount){
+        biggestMoodAmount = value;
+        averageMood = key;
+      }
+    });
+  }
+
+  Future<String> getAdvice(String mood) async {
+    switch(mood){
+      case 'angry':
+        adviceBorderColor = Colors.red.shade600;
+        adviceBackgroundColor = Colors.red.shade200;
+        break;
+      case 'sad':
+        adviceBorderColor = Colors.orange.shade600;
+        adviceBackgroundColor = Colors.orange.shade200;
+        break;
+      case 'mixed':
+        adviceBorderColor = Colors.purple.shade600;
+        adviceBackgroundColor = Colors.purple.shade200;
+        break;
+      case 'neutral':
+        adviceBorderColor = Colors.yellow.shade600;
+        adviceBackgroundColor = Colors.yellow.shade200;
+        break;
+      case 'happy':
+        adviceBorderColor = Colors.green.shade600;
+        adviceBackgroundColor = Colors.green.shade200;
+        break;
+    }
+    Response response = await get(Uri.parse('https://selfbetter-api.onrender.com/advice/$mood'));
+    return response.body;
+  }
 
   @override
   void initState() {
     setChartData(widget.snapshotData);
+    setAverageMood(feelingsAmount);
+    adviceFuture = getAdvice(averageMood);
     super.initState();
   }
 
@@ -38,7 +82,7 @@ class RecentMoodsStatsState extends State<RecentMoodsStats> {
     return Column(
       children: [
         Align(
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.center,
           child: Text(
             'Total moods chart',
             style: kStatsPageTitle,
@@ -74,6 +118,52 @@ class RecentMoodsStatsState extends State<RecentMoodsStats> {
             ),
           ),
         ),
+        SizedBox(
+          height: 10,
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Text(
+            'Average feeling: ${averageMood.capitalize()}',
+            style: kStatsPageTitle,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              border: Border.all(color: adviceBorderColor, width: 1.5),
+              color: adviceBackgroundColor,
+            ),
+            child: FutureBuilder(
+              future: adviceFuture,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          '${snapshot.data}',
+                          style: kHomePageQuoteText,
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text('No internet connection'),
+                  );
+                }
+              },
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -85,7 +175,6 @@ class RecentMoodsStatsState extends State<RecentMoodsStats> {
       final radius = isTouched ? 110.0 : 100.0;
       final widgetSize = isTouched ? 55.0 : 40.0;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
-      // print((feelingsAmount['angry']! * 100/widget.snapshotData.length).roundToDouble());
       switch (i) {
         case 0:
           double value =
