@@ -18,16 +18,15 @@ class _NotesListState extends State<NotesList> {
   void setUpMonthlyNotes(dynamic snapshotData) {
     userNotes = [];
     Map<String, List<Widget>> monthlyNotes = {};
-    for (Map<String, dynamic> note in snapshotData['notes'].reversed) {
-      // TODO: Chanage firebase storing, maybe list not map
-      String day = note.keys.toList()[0].split(',')[0];
-      String month = note.keys.toList()[0].split(',')[1];
-      String year = note.keys.toList()[0].split(',')[2];
-      String noteTitle = note.values.toList()[0][0];
-      String noteDescription = note.values.toList()[0][1];
-      int noteFeeling = note.values.toList()[0][2];
-      bool hasPhoto = note.values.toList()[0][3];
-      int noteID = note.values.toList()[0][4];
+    snapshotData['notes'].forEach((key,value){
+      String day = key.split(',')[0];
+      String month = key.split(',')[1].replaceAll(' ', '');
+      String year = key.split(',')[2].replaceAll(' ', '');
+      String noteTitle = value[0];
+      String noteDescription = value[1];
+      String noteFeeling = value[2];
+      bool hasPhoto = value[3];
+      int noteID = value[4];
       List months = [
         'January',
         'February',
@@ -50,8 +49,8 @@ class _NotesListState extends State<NotesList> {
             text: TextSpan(text: monthName, style: kNotesMainMonth, children: [
               WidgetSpan(
                   child: SizedBox(
-                width: 5,
-              )),
+                    width: 5,
+                  )),
               TextSpan(text: year, style: kNotesMainYear)
             ]),
           ),
@@ -66,6 +65,8 @@ class _NotesListState extends State<NotesList> {
             monthName: monthName,
             hasPhoto: hasPhoto,
             noteID: noteID,
+            month: month,
+            year: year,
           )
         ];
       } else {
@@ -79,10 +80,12 @@ class _NotesListState extends State<NotesList> {
             monthName: monthName,
             hasPhoto: hasPhoto,
             noteID: noteID,
+            month: month,
+            year: year,
           ),
         ));
       }
-    }
+    });
     for (List<Widget> note in monthlyNotes.values) {
       userNotes.add(Column(
         children: note,

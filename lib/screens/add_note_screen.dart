@@ -6,6 +6,8 @@ import 'package:selfbetter/helpers/storage_helper.dart';
 import 'package:selfbetter/widgets/image_input.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+
 class AddNotePage extends StatefulWidget {
   @override
   State<AddNotePage> createState() => _AddNotePageState();
@@ -46,22 +48,40 @@ class _AddNotePageState extends State<AddNotePage> {
   }
 
   void sendData() async{
-      List<dynamic>? notes = await FirestoreHelper.getUserDataFromDataField('notes', user.email!);
+      Map<String, dynamic>? notes = await FirestoreHelper.getUserDataFromDataField('notes', user.email!);
       int noteID;
-      notes!.length == 0? noteID = 0: noteID = notes.last.values.toList()[0][4] + 1;
+      print(notes!.values.elementAt(notes.length-1));
+      notes!.length == 0? noteID = 0: noteID = notes.values.elementAt(notes.length-1)[4];
       DateTime now = new DateTime.now();
       List<dynamic> notesData = [_titleController.text, _descriptionController.text, activeGeneralEmoji, _pickedImage == null? false : true, noteID];
       Map data = {'${now.day}, ${now.month}, ${now.year}': notesData};
       print(notes);
       if(notes == null){
         print('NO NOTES');
-        FirestoreHelper.addDataToFirestore('users_data', user.email!, 'notes', [data]);
+        FirestoreHelper.addDataToFirestore('users_data', user.email!, 'notes', data);
         return;
       } else {
         print('NOTES FOUND');
-        List<dynamic> userNotes = notes;
-        userNotes.add(data);
-        FirestoreHelper.addDataToFirestore('users_data', user.email!, 'notes', userNotes);
+        if(notes['${now.day}, ${now.month}, ${now.year}'] != null){
+          final snackBar = SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: 'On Snap!',
+              message:
+              'You already added note today! Try to edit it.',
+              contentType: ContentType.failure,
+            ),
+          );
+
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(snackBar);
+        } else {
+          notes['${now.day}, ${now.month}, ${now.year}'] = notesData;
+          FirestoreHelper.addDataToFirestore('users_data', user.email!, 'notes', notes);
+        }
       }
       if(_pickedImage != null){
         StorageHelper.uploadFile(_titleController.text, user.email!, _pickedImage!);

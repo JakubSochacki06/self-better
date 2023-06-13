@@ -21,7 +21,7 @@ class GoogleSignInProvider extends ChangeNotifier {
     DateTime now = new DateTime.now();
     // String? memberSince = await FirestoreHelper.getUserDataFromDataField('member_since', _user!.email);
     // print(memberSince);
-    await db.collection('users_data').doc(_user!.email).set({'user_email':_user!.email, 'member_since':'${now.day}, ${now.month}, ${now.year}', 'notes':[]}, SetOptions(merge : true));
+    await db.collection('users_data').doc(_user!.email).set({'user_email':_user!.email, 'member_since':'${now.day}, ${now.month}, ${now.year}', 'notes':{}}, SetOptions(merge : true));
     await FirebaseAuth.instance.signInWithCredential(credential);
     notifyListeners();
   }

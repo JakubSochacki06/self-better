@@ -5,12 +5,15 @@ import 'package:selfbetter/text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:selfbetter/screens/note_details_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'edit_note_popup.dart';
 
 class NoteTile extends StatelessWidget {
   final String noteTitle;
   final String noteDescription;
-  final int feeling;
+  final String feeling;
   final String day;
+  final String month;
+  final String year;
   final String monthName;
   final bool hasPhoto;
   final int noteID;
@@ -20,19 +23,14 @@ class NoteTile extends StatelessWidget {
     required this.noteDescription,
     required this.feeling,
     required this.day,
+    required this.month,
+    required this.year,
     required this.monthName,
     required this.hasPhoto,
     required this.noteID,
   });
 
   final user = FirebaseAuth.instance.currentUser!;
-  Map feelingToString = {
-    '1': 'angry',
-    '2': 'sad',
-    '3': 'mixed',
-    '4': 'neutral',
-    '5': 'happy',
-  };
 
   Future<bool> wantToDeleteNoteAlert(BuildContext context) async {
     bool deleteNote = await showDialog(
@@ -63,13 +61,12 @@ class NoteTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String feelingString = feelingToString[feeling.toString()];
     double width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: (){
         PersistentNavBarNavigator.pushNewScreen(
           context,
-          screen: NoteDetailsPage(title: noteTitle, description: noteDescription, feelingImagePath: 'assets/images/emojis/${feelingString}-emoji.png', userEmail: user.email!, day: day, month: monthName, hasPhoto: hasPhoto,),
+          screen: NoteDetailsPage(title: noteTitle, description: noteDescription, feelingImagePath: 'assets/images/emojis/${feeling}-emoji.png', userEmail: user.email!, day: day, month: monthName, hasPhoto: hasPhoto,),
           withNavBar: false, // OPTIONAL VALUE. True by default.
           pageTransitionAnimation: PageTransitionAnimation.cupertino,
         );
@@ -89,7 +86,7 @@ class NoteTile extends StatelessWidget {
                     width: 60,
                     height: 60,
                     child: Image.asset(
-                        'assets/images/emojis/${feelingString}-emoji.png'),
+                        'assets/images/emojis/${feeling}-emoji.png'),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                     ),
@@ -102,7 +99,7 @@ class NoteTile extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          '${feelingString[0].toUpperCase()}${feelingString.substring(1).toLowerCase()}',
+                          '${feeling[0].toUpperCase()}${feeling.substring(1).toLowerCase()}',
                           style: kNotesFeelingName,
                         ),
                       ),
@@ -125,7 +122,24 @@ class NoteTile extends StatelessWidget {
                       : FontAwesomeIcons.x),
                   Spacer(),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      PersistentNavBarNavigator.pushNewScreen(
+                        context,
+                        screen: EditNotePopup(
+                          title: noteTitle,
+                          description: noteDescription,
+                          feeling: feeling,
+                          hasPhoto: hasPhoto,
+                          userEmail: user.email!,
+                          day: day,
+                          month: month,
+                          year: year,
+                          noteID: noteID,
+                        ),
+                        withNavBar: false, // OPTIONAL VALUE. True by default.
+                        pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                      );
+                    },
                     icon: Icon(
                       FontAwesomeIcons.pen,
                       color: Colors.black38,
