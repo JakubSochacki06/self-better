@@ -12,9 +12,9 @@ class RecentMoodsTable extends StatefulWidget {
 
 class _RecentMoodsTableState extends State<RecentMoodsTable> {
   @override
-  @override
   Widget build(BuildContext context) {
-    int amountOfMoods = 14;
+    int amountOfMoods;
+    widget.snapshotData.length < 7? amountOfMoods = widget.snapshotData.length: amountOfMoods = 7;
     return Column(
       children: [
         Align(
