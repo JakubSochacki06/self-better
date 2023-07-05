@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:selfbetter/helpers/storage_helper.dart';
-
+// TODO przerobi screena
 class NoteDetailsPage extends StatelessWidget {
   final String title;
   final String description;

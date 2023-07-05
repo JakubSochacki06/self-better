@@ -24,10 +24,19 @@ class _RecentMoodsTableState extends State<RecentMoodsTable> {
             style: kStatsPageTitle,
           ),
         ),
-        MoodChart(
+        amountOfMoods>2?MoodChart(
           amountOfMoods: amountOfMoods,
           snapshotData: widget.snapshotData,
-        )
+        ):Container(
+          padding: EdgeInsets.all(15),
+          height: 200,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black)
+          ),
+          child: Center(
+            child: Text('You have less than 2 moods submitted.\nCome back tomorrow and check the result!'),
+          ),
+        ),
       ],
     );
   }

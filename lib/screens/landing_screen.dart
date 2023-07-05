@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:selfbetter/providers/google_sign_in.dart';
+import 'package:selfbetter/providers/google_sign_in_provider.dart';
 import 'package:selfbetter/text_styles.dart';
 import 'package:provider/provider.dart';
 

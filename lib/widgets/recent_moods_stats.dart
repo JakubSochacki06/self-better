@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:selfbetter/string_extension.dart';
 import 'package:selfbetter/text_styles.dart';
-import 'string_extension.dart';
+import 'package:selfbetter/helpers/feelings_helper.dart';
 import 'package:http/http.dart';
 
 class RecentMoodsStats extends StatefulWidget {
@@ -17,30 +17,11 @@ class RecentMoodsStats extends StatefulWidget {
 class RecentMoodsStatsState extends State<RecentMoodsStats> {
   late Future<String> adviceFuture;
   int touchedIndex = 0;
-  Map<String, int> feelingsAmount = {};
-  String averageMood = '';
-  int biggestMoodAmount = 0;
+  late Map<String, int> feelingsAmount;
+  late String averageMood;
   late Color adviceBorderColor;
   late Color adviceBackgroundColor;
 
-  void setChartData(Map<String, dynamic> snapshotData) {
-    snapshotData.forEach((key, value) {
-      if (feelingsAmount.containsKey(value['feeling'])) {
-        feelingsAmount[value['feeling']] =
-            feelingsAmount[value['feeling']]! + 1;
-      } else {
-        feelingsAmount[value['feeling']] = 1;
-      }
-    });
-  }
-  void setAverageMood(Map<String, int> feelingsAmount){
-    feelingsAmount.forEach((key, value) {
-      if(value > biggestMoodAmount){
-        biggestMoodAmount = value;
-        averageMood = key;
-      }
-    });
-  }
 
   Future<String> getAdvice(String mood) async {
     switch(mood){
@@ -71,8 +52,8 @@ class RecentMoodsStatsState extends State<RecentMoodsStats> {
 
   @override
   void initState() {
-    setChartData(widget.snapshotData);
-    setAverageMood(feelingsAmount);
+    feelingsAmount = FeelingsHelper.getFeelingsAmount(widget.snapshotData);
+    averageMood = FeelingsHelper.getAverageMood(feelingsAmount);
     adviceFuture = getAdvice(averageMood);
     super.initState();
   }
@@ -177,9 +158,9 @@ class RecentMoodsStatsState extends State<RecentMoodsStats> {
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
       switch (i) {
         case 0:
-          double value =
+          double value = feelingsAmount['angry'] != null?
               (feelingsAmount['angry']! * 100 / widget.snapshotData.length)
-                  .roundToDouble();
+                  .roundToDouble(): 0;
           return PieChartSectionData(
             color: Colors.red,
             value: value,
@@ -199,9 +180,9 @@ class RecentMoodsStatsState extends State<RecentMoodsStats> {
             badgePositionPercentageOffset: .98,
           );
         case 1:
-          double value =
+          double value = feelingsAmount['sad'] != null?
               (feelingsAmount['sad']! * 100 / widget.snapshotData.length)
-                  .roundToDouble();
+                  .roundToDouble():0;
           return PieChartSectionData(
             color: Colors.orange,
             value: value,
@@ -221,9 +202,9 @@ class RecentMoodsStatsState extends State<RecentMoodsStats> {
             badgePositionPercentageOffset: .98,
           );
         case 2:
-          double value =
+          double value = feelingsAmount['mixed'] != null?
               (feelingsAmount['mixed']! * 100 / widget.snapshotData.length)
-                  .roundToDouble();
+                  .roundToDouble():0;
           return PieChartSectionData(
             color: Colors.purple,
             value: value,
@@ -243,9 +224,9 @@ class RecentMoodsStatsState extends State<RecentMoodsStats> {
             badgePositionPercentageOffset: .98,
           );
         case 3:
-          double value =
+          double value = feelingsAmount['neutral'] != null?
               (feelingsAmount['neutral']! * 100 / widget.snapshotData.length)
-                  .roundToDouble();
+                  .roundToDouble():0;
           return PieChartSectionData(
             color: Colors.yellow,
             value: value,
@@ -265,9 +246,9 @@ class RecentMoodsStatsState extends State<RecentMoodsStats> {
             badgePositionPercentageOffset: .98,
           );
         case 4:
-          double value =
+          double value = feelingsAmount['happy'] != null?
               (feelingsAmount['happy']! * 100 / widget.snapshotData.length)
-                  .roundToDouble();
+                  .roundToDouble():0;
           return PieChartSectionData(
             color: Colors.green,
             value: value,

@@ -36,43 +36,43 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.all(25),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Spacer(),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black38, width: 1),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Icon(FontAwesomeIcons.star),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text('354 PTS'),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          width: 40,
-                          height: 40,
-                          child: Image.network(
-                            'https://cdn.betterttv.net/emote/5f65d6494c714103dfb56ca5/3x.webp',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
+              // Row(
+              //   children: [
+              //     Spacer(),
+              //     Container(
+              //       decoration: BoxDecoration(
+              //         border: Border.all(color: Colors.black38, width: 1),
+              //         borderRadius: BorderRadius.circular(10),
+              //       ),
+              //       child: Row(
+              //         children: [
+              //           SizedBox(
+              //             width: 10,
+              //           ),
+              //           Icon(FontAwesomeIcons.star),
+              //           SizedBox(
+              //             width: 10,
+              //           ),
+              //           Text('354 PTS'),
+              //           SizedBox(
+              //             width: 10,
+              //           ),
+              //           Container(
+              //             width: 40,
+              //             height: 40,
+              //             child: Image.network(
+              //               'https://cdn.betterttv.net/emote/5f65d6494c714103dfb56ca5/3x.webp',
+              //               fit: BoxFit.cover,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 15,
+              // ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
